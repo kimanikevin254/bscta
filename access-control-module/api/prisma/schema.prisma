@@ -1,0 +1,135 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String    @id @default(uuid())
+  name            String
+  email           String    @unique
+  phoneNumber     String
+  address         String?
+  kraPinNumber    String?
+  passwordHash    String?
+  emailVerifiedAt DateTime?
+  roleId          String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  refreshTokens       RefreshToken[]
+  passwordResetTokens PasswordResetToken[]
+  role                Role                 @relation(fields: [roleId], references: [id])
+  createdProjects     Project[]
+  createdInvites      Invite[]
+  assignments         Assignment[]
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model PasswordResetToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Invite {
+  id          String       @id @default(uuid())
+  name        String
+  email       String
+  phoneNumber String
+  roleId      String
+  invitedById String
+  token       String       @unique
+  status      InviteStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  invitedBy User @relation(fields: [invitedById], references: [id])
+  role      Role @relation(fields: [roleId], references: [id])
+}
+
+model Role {
+  id          String       @id @default(uuid())
+  name        RolesNames   @unique
+  description String
+  permissions Permission[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users   User[]
+  invites Invite[]
+}
+
+model Permission {
+  id       String @id @default(uuid())
+  resource String
+  action   String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  roles Role[]
+
+  @@unique([resource, action])
+}
+
+model Project {
+  id          String    @id @default(uuid())
+  name        String
+  description String
+  startDate   DateTime
+  endDate     DateTime?
+  createdBy   String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  creator     User         @relation(fields: [createdBy], references: [id])
+  assignments Assignment[]
+}
+
+model Assignment {
+  id         String   @id @default(uuid())
+  userId     String
+  projectId  String
+  assignedAt DateTime
+
+  user    User    @relation(fields: [userId], references: [id])
+  project Project @relation(fields: [projectId], references: [id])
+}
+
+enum RolesNames {
+  ADMIN // View, edit, and delete all data (users, projects).
+  PROJECT_MANAGER // View and edit assigned projects, and view all users.
+  ENGINEER // View assigned projects only.
+}
+
+enum InviteStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  EXPIRED
+}

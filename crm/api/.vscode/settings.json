@@ -1,0 +1,14 @@
+{
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "always",
+        "source.organizeImports": "always"
+    },
+    "editor.tabSize": 4,
+
+    "prettier.tabWidth": 4,
+    "prettier.useTabs": true,
+
+    "typescript.tsdk": "node_modules/typescript/lib"
+}
