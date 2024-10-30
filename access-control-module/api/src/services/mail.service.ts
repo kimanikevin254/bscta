@@ -101,7 +101,7 @@ export class MailService {
 
 	async sendRoleUpdateMail(to: string, name: string, newRole: string) {
 		try {
-			const APP_URL = 'http://localhost:3001/auth/login';
+			const APP_URL = 'http://localhost:3001/login';
 
 			const htmlContent = `
 				<div style="font-family: Arial, sans-serif; color: #333; padding: 20px;">
@@ -140,7 +140,7 @@ export class MailService {
 		projectName: string,
 	) {
 		try {
-			const APP_URL = 'http://localhost:3001/projects';
+			const APP_URL = 'http://localhost:3001/dashboard';
 
 			const htmlContent = `
 				<div style="font-family: Arial, sans-serif; color: #333; padding: 20px;">
@@ -178,7 +178,7 @@ export class MailService {
 		projectName: string,
 	) {
 		try {
-			const APP_URL = 'http://localhost:3001/projects';
+			const APP_URL = 'http://localhost:3001/dashboard';
 
 			const htmlContent = `
 				<div style="font-family: Arial, sans-serif; color: #333; padding: 20px;">

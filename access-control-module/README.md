@@ -42,4 +42,6 @@
         npm run dev
         ```
 
-    - Navigate to `http://localhost:5173`
+    - Navigate to `http://localhost:5173` and log in with the details from the seed script.
+
+> This is an invite-only system where the admin(created during the DB seed process) can invite other users and assign them roles. Once the users have been invited, they will receive an email which they can click to accept the invite, provide additional details and log in. Depending on the permissions assigned to their roles, they will have access to different data and be allowed to perform different actions.

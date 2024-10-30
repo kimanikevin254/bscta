@@ -100,7 +100,7 @@ export class AuthService {
 			await this.mailService.sendUserInviteMail(
 				invite.email,
 				invite.name,
-				`http://localhost:3001/auth/accept-invite?token=${token}`,
+				`http://localhost:5173/accept-invite?token=${token}`,
 				role.name,
 			);
 
@@ -366,7 +366,7 @@ export class AuthService {
 				await this.mailService.sendPasswordResetMail(
 					forgetPasswordDto.email,
 					user.name,
-					`http://localhost:3000/auth/reset-password?token=${passwordResetToken}`,
+					`http://localhost:5173/reset-password?token=${passwordResetToken}`,
 				);
 			}
 
